@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url 
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,6 +26,8 @@ SECRET_KEY = 'django-insecure-z@hh&+6=^k1z+z7ca(292t-8*k*oy&*$x=2z0r!*zhcx(lb)h!
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost").split(",")
 
 ALLOWED_HOSTS = ['*']
 
@@ -75,7 +79,9 @@ WSGI_APPLICATION = 'blog_django.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'default': dj_database_url.config(
+        default = os.environ.get('DATABASE_URL')
+    ) {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'blog_django',
         'USER': 'adminblog',
